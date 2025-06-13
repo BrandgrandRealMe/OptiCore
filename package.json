@@ -12,7 +12,7 @@
   "description": "Coming Soon™",
   "main": "index.js",
   "scripts": {
-    "start": "node deploy-commands.js && node index.js"
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC"
