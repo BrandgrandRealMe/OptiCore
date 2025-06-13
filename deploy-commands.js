@@ -1,19 +1,18 @@
 const { REST, Routes } = require('discord.js');
 const fs = require('node:fs');
 const path = require('node:path');
-const config = require('./config/settings.js');
+const config = require('./config/settings');
 
 const commands = [];
 
-// Recursive loader for top-level and nested command files
-function loadCommands(dirPath) {
+async function loadCommands(dirPath) {
   const entries = fs.readdirSync(dirPath, { withFileTypes: true });
 
   for (const entry of entries) {
     const fullPath = path.join(dirPath, entry.name);
 
     if (entry.isDirectory()) {
-      loadCommands(fullPath);
+      await loadCommands(fullPath);
     } else if (entry.name.endsWith('.js')) {
       const command = require(path.resolve(fullPath));
       if ('data' in command && 'execute' in command) {
