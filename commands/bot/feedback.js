@@ -89,7 +89,7 @@ module.exports = {
       // Fetch feedback channel
       let feedbackChannel;
       try {
-        feedbackChannel = await interaction.client.channels.fetch(config.suggestion.channel);
+        feedbackChannel = await interaction.client.channels.fetch(config.feedback.channel);
         console.log(`[${new Date().toISOString()}] Fetched feedback channel: ${feedbackChannel.id}`);
       } catch (error) {
         console.warn(`[${new Date().toISOString()}] Failed to fetch SUGGESTIONS_CHANNEL: ${error.message}`);
