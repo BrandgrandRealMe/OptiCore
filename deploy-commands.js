@@ -29,6 +29,8 @@ console.log('\n📦 Deploying slash commands...');
 loadCommands('./commands');
 
 const rest = new REST({ version: '10' }).setToken(config.token);
+await rest.put(Routes.applicationCommands(config.clientId), { body: [] });
+await rest.put(Routes.applicationGuildCommands(config.clientId, config.guildId), { body: [] });
 
 (async () => {
   try {
