@@ -30,8 +30,12 @@ async function startReminderManager(client) {
 
         await user.send({ embeds: [embed] });
         console.log(`Sent reminder ${reminder.id} to user ${reminder.user_id}`);
-
-        db.prepare('UPDATE reminders SET sent = 1 WHERE id = ?').run(reminder.id);
+        try {
+          db.prepare('UPDATE reminders SET sent = 1 WHERE id = ?').run(reminder.id);
+        } catch (err) {
+          console.error('Database error:', err);
+          return;
+        }
       } catch (err) {
         console.error(`Error sending reminder ${reminder.id} to user ${reminder.user_id}:`, err);
       }

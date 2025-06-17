@@ -23,10 +23,14 @@ async function startGiveawayManager(client) {
         }
 
         const entries = db.prepare('SELECT user_id FROM entries WHERE message_id = ?').all(giveaway.message_id);
-        
-        // Mark as ended
-        db.prepare('UPDATE giveaways SET ended = 1 WHERE message_id = ?').run(giveaway.message_id);
 
+        // Mark as ended
+        try {
+          db.prepare('UPDATE giveaways SET ended = 1 WHERE message_id = ?').run(giveaway.message_id);
+        } catch (err) {
+          console.error('Database error:', err);
+          return;
+        }
         // Create updated embed
         const embed = new EmbedBuilder(message.embeds[0].data)
           .setTitle(`🎉 ${giveaway.prize} - ENDED`)

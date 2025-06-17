@@ -33,8 +33,13 @@ async function startPollManager(client) {
                 const options = JSON.parse(poll.options);
 
                 // Mark as ended
-                db.prepare('UPDATE polls SET ended = 1 WHERE message_id = ?').run(poll.message_id);
 
+                try {
+                    db.prepare('UPDATE polls SET ended = 1 WHERE message_id = ?').run(poll.message_id);
+                } catch (err) {
+                    console.error('Database error:', err);
+                    return;
+                }
                 // Calculate results
                 const totalVotes = votes.reduce((sum, v) => sum + v.count, 0);
                 const results = options.map((opt, i) => {
